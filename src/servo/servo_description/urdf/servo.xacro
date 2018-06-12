@@ -1,0 +1,678 @@
+<?xml version="1.0"?>
+
+<robot name="servo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="mass" value="1" /> <!-- arbitrary value for mass -->
+  <xacro:property name="mass1" value="5000" /> <!-- arbitrary value for mass -->
+  <xacro:property name="radius" value="0.05" /> <!-- Radii of the cylinder-->
+  <xacro:property name="length1" value="0.1" /> <!-- seg42 -->
+  <xacro:property name="length2" value="1" /> <!-- Rotator -->
+  <xacro:property name="width" value="0.1" /> <!-- width of the beam -->
+  <xacro:property name="offset" value="0" /> <!-- width of the beam -->
+
+  <xacro:include filename="$(find servo_description)/urdf/servo.gazebo" />
+  <xacro:include filename="$(find servo_description)/urdf/materials.xacro" />
+<!--========================PALM ========================================= -->
+  <link name="Palm">
+    <collision>
+      <origin xyz="0 0.15 0.5" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.15 0.7 1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0.15 0.5" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.15 0.7 1"/>
+      </geometry>
+      <material name="skin"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0.15 0.5" rpy="0 0 0"/>
+      <mass value="${mass1}"/>
+      <inertia
+          ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
+          iyy="${mass1 / 12.0 * (length1*length1 + length1*length1)}" iyz="0.0"
+          izz="${mass1 / 12.0 * (length1*length1 + length1*length1)}"/>
+      </inertial>
+  </link>
+
+<!--========================PALM JOINTS ========================================= -->
+
+  <joint name="jointGT" type="fixed">
+    <parent link="Palm"/>
+    <child link="segt1"/>
+    <origin xyz="0 -0.25 0.1" rpy="0.52 0 0"/>
+  </joint>
+
+  <joint name="jointG1" type="fixed">
+    <parent link="Palm"/>
+    <child link="seg11"/>
+    <origin xyz="0 -0.15 1" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="jointG2" type="fixed">
+    <parent link="Palm"/>
+    <child link="seg21"/>
+    <origin xyz="0 0.05 1" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="jointG3" type="fixed">
+    <parent link="Palm"/>
+    <child link="seg31"/>
+    <origin xyz="0 0.25 1" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="jointG4" type="fixed">
+    <parent link="Palm"/>
+    <child link="seg41"/>
+    <origin xyz="0 0.45 1" rpy="0 0 0"/>
+  </joint>
+
+<!--====================== THUMB ===============================-->
+
+  <link name="segt1">
+    <collision>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass1}"/>
+      <inertia
+    ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
+    iyy="${mass1 / 12.0 * (length1*length1 + length1*length1)}" iyz="0.0"
+    izz="${mass1 / 12.0 * (length1*length1 + length1*length1)}"/>
+    </inertial>
+  </link>
+
+  <joint name="jointt1" type="revolute">
+    <parent link="segt1"/>
+    <child link="segt2"/>
+    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="segt2">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+  <joint name="jointt2" type="revolute">
+    <parent link="segt2"/>
+    <child link="segt3"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="segt3">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+<!--====================== INDEX FINGER ===============================-->
+
+  <link name="seg11">
+    <collision>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+	       <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+	       <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass1}"/>
+      <inertia
+	  ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass1 / 12.0 * (length1*length1 + length1*length1)}" iyz="0.0"
+	  izz="${mass1 / 12.0 * (length1*length1 + length1*length1)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint11" type="revolute">
+    <parent link="seg11"/>
+    <child link="seg12"/>
+    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg12">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+	       <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+	       <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+	  ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+	  iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+	  izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint12" type="revolute">
+    <parent link="seg12"/>
+    <child link="seg13"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg13">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+<!--====================== MIDDLE FINGER ===============================-->
+
+  <link name="seg21">
+    <collision>
+      <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
+      <mass value="${mass1}"/>
+      <inertia
+    ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
+    iyy="${mass1 / 12.0 * (length1*length1 + length1*length1)}" iyz="0.0"
+    izz="${mass1 / 12.0 * (length1*length1 + length1*length1)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint21" type="revolute">
+    <parent link="seg21"/>
+    <child link="seg22"/>
+    <origin xyz="0.05 0.0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg22">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint22" type="revolute">
+    <parent link="seg22"/>
+    <child link="seg23"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg23">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+<!--====================== RING FINGER ===============================-->
+
+  <link name="seg31">
+    <collision>
+      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass1}"/>
+      <inertia
+    ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
+    iyy="${mass1 / 12.0 * (length1*length1 + length1*length1)}" iyz="0.0"
+    izz="${mass1 / 12.0 * (length1*length1 + length1*length1)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint31" type="revolute">
+    <parent link="seg31"/>
+    <child link="seg32"/>
+    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg32">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint32" type="revolute">
+    <parent link="seg32"/>
+    <child link="seg33"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg33">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+<!--====================== LITTLE FINGER ===============================-->
+
+  <link name="seg41">
+    <collision>
+      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass1}"/>
+      <inertia
+    ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
+    iyy="${mass1 / 12.0 * (length1*length1 + length1*length1)}" iyz="0.0"
+    izz="${mass1 / 12.0 * (length1*length1 + length1*length1)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint41" type="revolute">
+    <parent link="seg41"/>
+    <child link="seg42"/>
+    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg42">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+  <joint name="joint42" type="revolute">
+    <parent link="seg42"/>
+    <child link="seg43"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+  </joint>
+
+  <link name="seg43">
+    <collision>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <geometry>
+         <box size="0.1 0.1 0.5"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <mass value="${mass}"/>
+      <inertia
+    ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
+    iyy="${mass / 12.0 * (length2*length2 + width*width)}" iyz="0.0"
+    izz="${mass / 12.0 * (width*width + length2*length2)}"/>
+    </inertial>
+  </link>
+
+<!-- ==================TRANSMISSION LINE =========================== -->
+  <transmission name="trant1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="jointt1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motort1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trant2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="jointt2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motort2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran11">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint11">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor11">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran12">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint12">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor12">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran21">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint21">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor21">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran22">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint22">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor22">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran31">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint31">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor31">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran32">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint32">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor32">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran41">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint41">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor41">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran42">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint42">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor42">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+</robot>
