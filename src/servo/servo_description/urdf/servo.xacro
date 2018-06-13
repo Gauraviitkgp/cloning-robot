@@ -11,28 +11,33 @@
   <xacro:property name="length2" value="1" /> <!-- Rotator -->
   <xacro:property name="width" value="0.1" /> <!-- width of the beam -->
   <xacro:property name="offset" value="0" /> <!-- width of the beam -->
+  <xacro:property name="spacing" value="0.25" /> <!-- width of the beam -->
+  <xacro:property name="leftmost" value="-0.2" /> <!-- leftmost y cordinate of palm -->
+  <xacro:property name="imr_width" value="0.173" /> <!-- index middle ring width -->
+  <xacro:property name="l_width" value="0.15" /> <!-- little width -->
+  <xacro:property name="x_width" value="0.10" /> <!-- little width -->
 
   <xacro:include filename="$(find servo_description)/urdf/servo.gazebo" />
   <xacro:include filename="$(find servo_description)/urdf/materials.xacro" />
 <!--========================PALM ========================================= -->
   <link name="Palm">
     <collision>
-      <origin xyz="0 0.15 0.5" rpy="0 0 0"/>
+      <origin xyz="0 ${(leftmost+imr_width/2+spacing*3+l_width/2+leftmost)/2} 0.5" rpy="0 0 0"/>
       <geometry>
-         <box size="0.15 0.7 1"/>
+         <box size="${x_width*2} ${(leftmost+imr_width/2+spacing*3+l_width/2+leftmost)+0.4} 1"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0.15 0.5" rpy="0 0 0"/>
+      <origin xyz="0 ${(leftmost+imr_width/2+spacing*3+l_width/2+leftmost)/2} 0.5" rpy="0 0 0"/>
       <geometry>
-         <box size="0.15 0.7 1"/>
+         <box size="${x_width*2} ${(leftmost+imr_width/2+spacing*3+l_width/2+leftmost)+0.4} 1"/>
       </geometry>
       <material name="skin"/>
     </visual>
 
     <inertial>
-      <origin xyz="0 0.15 0.5" rpy="0 0 0"/>
+      <origin xyz="0 ${(leftmost+imr_width/2+spacing*3+l_width/2+leftmost)/2} 0.5" rpy="0 0 0"/>
       <mass value="${mass1}"/>
       <inertia
           ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
@@ -46,53 +51,53 @@
   <joint name="jointGT" type="fixed">
     <parent link="Palm"/>
     <child link="segt1"/>
-    <origin xyz="0 -0.25 0.1" rpy="0.52 0 0"/>
+    <origin xyz="0 ${leftmost-0.05} 0.3" rpy="0.52 0 0"/>
   </joint>
 
   <joint name="jointG1" type="fixed">
     <parent link="Palm"/>
     <child link="seg11"/>
-    <origin xyz="0 -0.15 1" rpy="0 0 0"/>
+    <origin xyz="0 ${leftmost+imr_width/2} 1" rpy="0 0 0"/>
   </joint>
 
   <joint name="jointG2" type="fixed">
     <parent link="Palm"/>
     <child link="seg21"/>
-    <origin xyz="0 0.05 1" rpy="0 0 0"/>
+    <origin xyz="0 ${leftmost+imr_width/2+spacing} 1" rpy="0 0 0"/>
   </joint>
 
   <joint name="jointG3" type="fixed">
     <parent link="Palm"/>
     <child link="seg31"/>
-    <origin xyz="0 0.25 1" rpy="0 0 0"/>
+    <origin xyz="0 ${leftmost+imr_width/2+spacing*2} 1" rpy="0 0 0"/>
   </joint>
 
   <joint name="jointG4" type="fixed">
     <parent link="Palm"/>
     <child link="seg41"/>
-    <origin xyz="0 0.45 1" rpy="0 0 0"/>
+    <origin xyz="0 ${leftmost+imr_width/2+spacing*3} 1" rpy="0 0 0"/>
   </joint>
 
 <!--====================== THUMB ===============================-->
 
   <link name="segt1">
     <collision>
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} 0.21 0.15"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} 0.21 0.15"/>
       </geometry>
       <material name="orange"/>
     </visual>
 
     <inertial>
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.15/2}" rpy="0 0 0"/>
       <mass value="${mass1}"/>
       <inertia
     ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
@@ -104,7 +109,7 @@
   <joint name="jointt1" type="revolute">
     <parent link="segt1"/>
     <child link="segt2"/>
-    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <origin xyz="${x_width/2} 0 0.15" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -112,22 +117,22 @@
 
   <link name="segt2">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} 0.21 0.268"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} 0.21 0.268"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -139,7 +144,7 @@
   <joint name="jointt2" type="revolute">
     <parent link="segt2"/>
     <child link="segt3"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <origin xyz="0 0 ${0.268}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -147,22 +152,22 @@
 
   <link name="segt3">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} 0.21 0.268"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} 0.21 0.268"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -175,22 +180,22 @@
 
   <link name="seg11">
     <collision>
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-	       <box size="0.1 0.1 0.5"/>
+	       <box size="${x_width} ${imr_width} 0.268"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-	       <box size="0.1 0.1 0.5"/>
+	       <box size="${x_width} ${imr_width} 0.268"/>
       </geometry>
       <material name="orange"/>
     </visual>
 
     <inertial>
-      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.268/2}" rpy="0 0 0"/>
       <mass value="${mass1}"/>
       <inertia
 	  ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
@@ -202,7 +207,7 @@
   <joint name="joint11" type="revolute">
     <parent link="seg11"/>
     <child link="seg12"/>
-    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <origin xyz="${x_width/2} 0 0.268" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -210,22 +215,22 @@
 
   <link name="seg12">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-	       <box size="0.1 0.1 0.5"/>
+	       <box size="${x_width} ${imr_width} 0.268"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-	       <box size="0.1 0.1 0.5"/>
+	       <box size="${x_width} ${imr_width} 0.268"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
 	  ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -237,7 +242,7 @@
   <joint name="joint12" type="revolute">
     <parent link="seg12"/>
     <child link="seg13"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <origin xyz="0 0 ${0.268}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -245,22 +250,22 @@
 
   <link name="seg13">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.268"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.268"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.268/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -273,22 +278,22 @@
 
   <link name="seg21">
     <collision>
-      <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.3/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.2"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.3/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.3"/>
       </geometry>
       <material name="orange"/>
     </visual>
 
     <inertial>
-      <origin xyz="0.0 0.0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.3/2}" rpy="0 0 0"/>
       <mass value="${mass1}"/>
       <inertia
     ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
@@ -300,7 +305,7 @@
   <joint name="joint21" type="revolute">
     <parent link="seg21"/>
     <child link="seg22"/>
-    <origin xyz="0.05 0.0 0.5" rpy="0 0 0"/>
+    <origin xyz="${x_width/2} 0.0 0.3" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -308,22 +313,22 @@
 
   <link name="seg22">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.3/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.3"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.3/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.3"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.3/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -335,7 +340,7 @@
   <joint name="joint22" type="revolute">
     <parent link="seg22"/>
     <child link="seg23"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -343,22 +348,22 @@
 
   <link name="seg23">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.3/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.3"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.3/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.3"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.3/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -371,22 +376,22 @@
 
   <link name="seg31">
     <collision>
-      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.24/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.24"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.24/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.24"/>
       </geometry>
       <material name="orange"/>
     </visual>
 
     <inertial>
-      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.24/2}" rpy="0 0 0"/>
       <mass value="${mass1}"/>
       <inertia
     ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
@@ -398,7 +403,7 @@
   <joint name="joint31" type="revolute">
     <parent link="seg31"/>
     <child link="seg32"/>
-    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <origin xyz="${x_width/2} 0.0 0.24" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -406,22 +411,22 @@
 
   <link name="seg32">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.24/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.24"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.24/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.24"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.24/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -433,7 +438,7 @@
   <joint name="joint32" type="revolute">
     <parent link="seg32"/>
     <child link="seg33"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <origin xyz="0 0 0.24" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -441,22 +446,22 @@
 
   <link name="seg33">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.24/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.24"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.24/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${imr_width} 0.24"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.24/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -469,22 +474,22 @@
 
   <link name="seg41">
     <collision>
-      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${l_width} 0.15"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${l_width} 0.15"/>
       </geometry>
       <material name="orange"/>
     </visual>
 
     <inertial>
-      <origin xyz="0.0 0 0.25" rpy="0 0 0"/>
+      <origin xyz="0 0 ${0.15/2}" rpy="0 0 0"/>
       <mass value="${mass1}"/>
       <inertia
     ixx="${mass1 / 12.0 * (length1*length1 + length1*length1)}" ixy="0.0" ixz="0.0"
@@ -496,7 +501,7 @@
   <joint name="joint41" type="revolute">
     <parent link="seg41"/>
     <child link="seg42"/>
-    <origin xyz="0.05 0 0.5" rpy="0 0 0"/>
+    <origin xyz="${x_width/2} 0.0 0.15" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -504,22 +509,22 @@
 
   <link name="seg42">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${l_width} 0.15"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${l_width} 0.15"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.15/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
@@ -531,7 +536,7 @@
   <joint name="joint42" type="revolute">
     <parent link="seg42"/>
     <child link="seg43"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
@@ -539,22 +544,22 @@
 
   <link name="seg43">
     <collision>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${l_width} 0.15"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.15/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="0.1 0.1 0.5"/>
+         <box size="${x_width} ${l_width} 0.15"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <inertial>
-      <origin xyz="-0.05 0 0.25" rpy="0 0 0"/>
+      <origin xyz="${-x_width/2} 0 ${0.15/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
       <inertia
     ixx="${mass / 12.0 * (width*width + width*width)}" ixy="0.0" ixz="0.0"
