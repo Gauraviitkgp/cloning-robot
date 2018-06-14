@@ -28,6 +28,6 @@
 
 
   <!-- ros_control servo launch file  -->
-  <include file="$(find servo_control)/launch/servo_control.launch" />
+  <include file="$(find servo_control)/launch/servo_control.launch" />  
 
 </launch>

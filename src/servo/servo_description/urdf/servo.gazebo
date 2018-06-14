@@ -9,6 +9,12 @@
     </plugin>
   </gazebo>
 
+  <gazebo reference="Right_upper">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="Right_lower">
+    <material>Gazebo/Green</material>
+  </gazebo>
   <gazebo reference="Palm">
     <material>Gazebo/Brown</material>
   </gazebo>

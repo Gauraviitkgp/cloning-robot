@@ -15,8 +15,6 @@ servo:
     joint: jointt2
     pid: {p: 100.0, i: 0.01, d: 10.0}
 
-
-
   joint11_position_controller:
     type: effort_controllers/JointPositionController
     joint: joint11
@@ -55,5 +53,25 @@ servo:
   joint42_position_controller:
     type: effort_controllers/JointPositionController
     joint: joint42
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  Right_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_hinge
+    pid: {p: 100.0, i: 0.01, d: 1.0}
+
+  Right_palm_x_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_palm_x
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  Right_palm_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_palm_y
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  Right_palm_z_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_palm_z
     pid: {p: 100.0, i: 0.01, d: 10.0}
 
