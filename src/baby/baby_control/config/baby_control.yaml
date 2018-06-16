@@ -1,0 +1,211 @@
+baby:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers ---------------------------------------
+
+  #Leg controllers
+  Right_leg_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_leg_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Left_leg_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Left_leg_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Right_leg_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_leg_hinge
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Left_leg_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Left_leg_hinge
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Right_foot_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_foot_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Left_foot_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Left_foot_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+
+  #Neck controller  
+  Neck_y_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Neck_y_joint
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Head_x_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Head_x_joint
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Head_z_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Head_z_joint
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+ 
+  #Right Hand controllers
+  Right_hand_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_hand_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Right_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_hinge
+    pid: {p: 1000, i: 10.0, d: 1000}
+
+  Right_palm_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Right_palm_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+  #Palm Controller
+  Right_jointt1_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_jointt1
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_jointt2_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_jointt2
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint11_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint11
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint12_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint12
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint21_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint21
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint22_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint22
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint31_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint31
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint32_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint32
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint41_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint41
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Right_joint42_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_joint42
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+
+  #Left Hand controllers
+  Left_hand_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Left_hand_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Left_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Left_hinge
+    pid: {p: 1000, i: 10.0, d: 1000}
+
+  Left_palm_y_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: Left_palm_y
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  #Palm Controller
+  Left_jointt1_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_jointt1
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_jointt2_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_jointt2
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint11_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint11
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint12_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint12
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint21_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint21
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint22_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint22
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint31_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint31
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint32_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint32
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint41_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint41
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  Left_joint42_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_joint42
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  
+
+  # Right_palm_z_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: Right_palm_z
+  #   pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  # Right_palm_x_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: Right_palm_x
+  #   pid: {p: 1000.0, i: 10.01, d: 100.0}
+
+  # Right_hand_x_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: Right_hand_x
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  # Right_hand_z_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: Right_hand_z
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
