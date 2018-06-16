@@ -9,7 +9,7 @@
   <xacro:property name="mass_hand" value="20" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_neck" value="2" />
   <xacro:property name="mass_leg" value="25" />
-  <xacro:property name="mass_foot" value="10" />
+  <xacro:property name="mass_foot" value="1000" />
 
   <xacro:property name="radius" value="0.05" /> <!-- Radii of the cylinder-->
   <xacro:property name="length1" value="0.1" /> <!-- Right_seg42 -->
@@ -105,16 +105,16 @@
     <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
-  <joint name="Neck_y_joint" type="revolute">
+  <joint name="Neck_y_joint" type="fixed">
     <parent link="Chest"/>
     <child link="Neck"/>
-    <origin xyz="0 0 ${chest_height}" rpy="0 -1.57 0"/>
+    <origin xyz="0 0 ${chest_height}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
-  <joint name="Left_leg_y" type="revolute">
+  <joint name="Left_leg_y" type="fixed">
     <parent link="Chest"/>
     <child link="Left_leg_upper"/>
     <origin xyz="0 ${-chest_length/2+leg_radius} 0  " rpy="0 0 0"/>
@@ -123,7 +123,7 @@
     <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
-  <joint name="Right_leg_y" type="revolute">
+  <joint name="Right_leg_y" type="fixed">
     <parent link="Chest"/>
     <child link="Right_leg_upper"/>
     <origin xyz="0 ${chest_length/2-leg_radius} 0  " rpy="0 0 0"/>
@@ -160,7 +160,7 @@
     </inertial>
   </link>
 
-  <joint name="Left_leg_hinge" type="revolute">
+  <joint name="Left_leg_hinge" type="fixed">
     <parent link="Left_leg_upper"/>
     <child link="Left_leg_lower"/>
     <origin xyz="0 0 ${-leg_height}" rpy="0 0 0"/>
@@ -194,7 +194,7 @@
     </inertial>
   </link>
 
-  <joint name="Left_foot_y" type="revolute">
+  <joint name="Left_foot_y" type="fixed">
     <parent link="Left_leg_lower"/>
     <child link="Left_foot"/>
     <origin xyz="0 0 ${-leg_height}" rpy="0 0 0"/>
@@ -255,7 +255,7 @@
     </inertial>
   </link>
 
-  <joint name="Right_leg_hinge" type="revolute">
+  <joint name="Right_leg_hinge" type="fixed">
     <parent link="Right_leg_upper"/>
     <child link="Right_leg_lower"/>
     <origin xyz="0 0 ${-leg_height}" rpy="0 0 0"/>
@@ -289,7 +289,7 @@
     </inertial>
   </link>
 
-  <joint name="Right_foot_y" type="revolute">
+  <joint name="Right_foot_y" type="fixed">
     <parent link="Right_leg_lower"/>
     <child link="Right_foot"/>
     <origin xyz="0 0 ${-leg_height}" rpy="0 0 0"/>
@@ -351,7 +351,7 @@
     </inertial>
   </link>
 
- <joint name="Head_z_joint" type="continuous">
+ <joint name="Head_z_joint" type="fixed">
     <parent link="Neck"/>
     <child link="Head_z"/>
     <origin xyz="0 0 ${neck_height}" rpy="0 0 0"/>
@@ -384,10 +384,10 @@
     </inertial>
   </link>
 
-  <joint name="Head_x_joint" type="continuous">
+  <joint name="Head_x_joint" type="fixed">
     <parent link="Neck"/>
     <child link="Head"/>
-    <origin xyz="0 0 ${neck_height}" rpy="-1.57 0 0"/>
+    <origin xyz="0 0 ${neck_height}" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <limit effort="1000" velocity="1.0" />
   </joint>
@@ -443,7 +443,7 @@
     </inertial>
   </link>
 
-  <joint name="Right_hinge" type="revolute">
+  <joint name="Right_hinge" type="fixed">
     <parent link="Right_upper"/>
     <child link="Right_lower"/>
     <origin xyz="${hand_radius/2} 0 ${hand_height}" rpy="0 0 0"/>
@@ -480,7 +480,7 @@
 <!-- ===============3 axis PALM joint ======================================= 
     ===== https://answers.ros.org/question/258420/ball-joint-in-urdf/  --> 
   
-   <joint name="Right_palm_y" type="revolute"> 
+   <joint name="Right_palm_y" type="fixed"> 
     <parent link="Right_lower"/>
     <child link="Right_palm"/>
     <origin xyz="${-hand_radius/2} 0 ${hand_height}" rpy="0 -1.57 0"/>
@@ -1124,7 +1124,7 @@
     </inertial>
   </link>
 
-  <joint name="Left_hinge" type="revolute">
+  <joint name="Left_hinge" type="fixed">
     <parent link="Left_upper"/>
     <child link="Left_lower"/>
     <origin xyz="${hand_radius/2} 0 ${hand_height}" rpy="0 0 0"/>
@@ -1161,7 +1161,7 @@
 <!-- ===============3 axis PALM joint ======================================= 
     ===== https://answers.ros.org/question/258420/ball-joint-in-urdf/  --> 
   
-   <joint name="Left_palm_y" type="revolute"> 
+   <joint name="Left_palm_y" type="fixed"> 
     <parent link="Left_lower"/>
     <child link="Left_palm"/>
     <origin xyz="${-hand_radius/2} 0 ${hand_height}" rpy="0 -1.57 3.14"/>
@@ -1782,7 +1782,7 @@
 
 <!-- ==================TRANSMISSION LINE =========================== -->
 <!-- ============================= Head transmission ========================== -->
-  <transmission name="tran_Neck_y_joint">
+<!--   <transmission name="tran_Neck_y_joint">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Neck_y_joint">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
@@ -1814,10 +1814,10 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-
+ -->
 <!-- ============================= Leg transmission ========================== -->
 
-  <transmission name="tran_Right_leg_y">
+<!--   <transmission name="tran_Right_leg_y">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Right_leg_y">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
@@ -1880,8 +1880,8 @@
     <actuator name="motor_Left_foot_y">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
+    </actuator> 
+  </transmission>-->
 
 
 
@@ -1890,14 +1890,75 @@
   <transmission name="tran_Right_hand_y">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Right_hand_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_Right_hand_y">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_Left_hand_y">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_hand_y">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Left_hand_y">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+ <!--  <transmission name="tran_Right_hinge">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Right_hinge">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Right_hinge">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
 
+  <transmission name="tran_Right_palm_y">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Right_palm_y">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+
+    <actuator name="motor_Right_palm_y">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+ -->
+<!--   <transmission name="tran_Left_hinge">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_hinge">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Left_hinge">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_Left_palm_y">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_palm_y">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+
+    <actuator name="motor_Left_palm_y">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+ -->
+  
+
+
+<!--==========================Right palm ========================== -->
   <transmission name="Right_trant1">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Right_jointt1">
@@ -2008,42 +2069,10 @@
     </actuator>
   </transmission>
 
-  <transmission name="tran_Right_hinge">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Right_hinge">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_Right_hinge">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
+  
 
-  <transmission name="tran_Right_palm_y">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Right_palm_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-
-    <actuator name="motor_Right_palm_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <!-- Left hand transmissions -->
-  <transmission name="tran_Left_hand_y">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Left_hand_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_Left_hand_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-
+<!--================================= Left hand transmissions==================== -->
+  
   <transmission name="Left_trant1">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Left_jointt1">
@@ -2153,30 +2182,6 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-
-  <transmission name="tran_Left_hinge">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Left_hinge">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_Left_hinge">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="tran_Left_palm_y">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Left_palm_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-
-    <actuator name="motor_Left_palm_y">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
 
  
  <!--

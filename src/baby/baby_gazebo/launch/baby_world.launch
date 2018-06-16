@@ -27,7 +27,7 @@
 
 
 
-  <!-- ros_control baby launch file  -->
-  <include file="$(find baby_control)/launch/baby_control.launch" /> 
+  <!-- ros_control baby launch file  
+  <include file="$(find baby_control)/launch/baby_control.launch" />  -->
 
 </launch>
