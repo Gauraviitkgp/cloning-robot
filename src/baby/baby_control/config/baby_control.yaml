@@ -53,12 +53,19 @@ baby:
   #   type: position_controllers/JointPositionController
   #   joint: Head_z_joint
   #   pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Right_hand_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+      - Right_hand_y
+      - Left_hand_y
+
  
   #Right Hand controllers
-  Right_hand_y_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: Right_hand_y
-    pid: {p: 1000.0, i: 10.0, d: 100.0}
+  # Right_hand_y_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: Right_hand_y
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
 
   # Right_hinge_position_controller:
   #   type: position_controllers/JointPositionController
@@ -122,10 +129,10 @@ baby:
 
 
   #Left Hand controllers
-  Left_hand_y_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: Left_hand_y
-    pid: {p: 1000.0, i: 10.0, d: 100.0}
+  # Left_hand_y_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: Left_hand_y
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
 
   # Left_hinge_position_controller:
   #   type: effort_controllers/JointPositionController

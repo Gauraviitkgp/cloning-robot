@@ -24,7 +24,9 @@ install(DIRECTORY src
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
-add_executable(arm_joints src/joint_state_publisher.cpp)
+add_executable(arm_joints src/joint_state_publisher.cpp )
+add_executable(trajectory src/trajectory.cpp)
 
-target_link_libraries(arm_joints ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
-    )
+target_link_libraries(arm_joints ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(trajectory ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+    
