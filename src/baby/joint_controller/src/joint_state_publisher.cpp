@@ -169,7 +169,7 @@ int main(int argc, char** argv)
     Left_hand_x = nh.advertise<std_msgs::Float64>("/baby/Left_hand_x_position_controller/command", 1);
     Left_hand_z = nh.advertise<std_msgs::Float64>("/baby/Left_hand_z_position_controller/command", 1);
     
-    thetha_other[0]=157;
+    thetha_other[0]=157;//Neck joints
     thetha_other[1]=157;
     thetha_right[14]=314;//RIght_hand_y
     thetha_right[15]=314+157;//Right_hand_x
@@ -318,8 +318,8 @@ int main(int argc, char** argv)
         Left_hand_x.publish(left_hand_x);
         Left_hand_z.publish(left_hand_z);
 
-        neck_y.data= (float)(thetha_other[0])/100;
-        head_x.data= (float)(thetha_other[1])/100;
+        neck_y.data= (float)(thetha_other[0]-157)/100;
+        head_x.data= (float)(thetha_other[1]-157)/100;
         head_z.data= (float)(thetha_other[2])/100;
 
         Neck_y.publish(neck_y);
