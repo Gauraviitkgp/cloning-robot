@@ -4,7 +4,7 @@
 
   <!-- Constants for robot dimensions -->
   <xacro:property name="PI" value="3.1415926535897931"/>
-  <xacro:property name="mass_chest" value="10000" />
+  <xacro:property name="mass_chest" value="25" />
   <xacro:property name="mass_palm" value="0.2" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_hand" value="20" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_neck" value="2" />
