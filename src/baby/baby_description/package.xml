@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>servo_description</name>
+  <name>baby_description</name>
   <version>0.0.0</version>
-  <description>The servo_description package</description>
+  <description>The baby_description package</description>
 
   <maintainer email="gauravs123456789@gmail.com">Gaurav Suryawanshi</maintainer>
 

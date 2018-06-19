@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<robot>
+
+  <gazebo>
+      <self_collide>0</self_collide>
+  </gazebo>
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/baby</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="Chest">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="Right_leg_upper">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="Right_leg_lower">
+    <material>Gazebo/Green</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+
+  <gazebo reference="Left_leg_upper">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="Left_leg_lower">
+    <material>Gazebo/Green</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+
+  <gazebo reference="Left_foot">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_foot">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_upper">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="Right_lower">
+    <material>Gazebo/Green</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <gazebo reference="Right_palm">
+    <material>Gazebo/Brown</material>
+  </gazebo>
+  <!-- Link1 -->
+  <gazebo reference="Right_seg11">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+  <gazebo reference="Right_seg12">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_seg13">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <!-- Link3 -->
+  <gazebo reference="Right_seg21">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+  <gazebo reference="Right_seg22">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_seg23">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <gazebo reference="Right_seg31">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="Right_seg32">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_seg33">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <gazebo reference="Right_seg41">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="Right_seg42">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_seg43">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <gazebo reference="Right_segt1">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="Right_segt2">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Right_segt3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+<!-- Left hand starts -->  
+  <gazebo reference="Left_upper">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="Left_lower">
+    <material>Gazebo/Green</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+  </gazebo>
+  <gazebo reference="Left_palm">
+    <material>Gazebo/Brown</material>
+  </gazebo>
+  <!-- Link1 -->
+  <gazebo reference="Left_seg11">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+  <gazebo reference="Left_seg12">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Left_seg13">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <!-- Link3 -->
+  <gazebo reference="Left_seg21">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+  <gazebo reference="Left_seg22">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Left_seg23">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <gazebo reference="Left_seg31">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="Left_seg32">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Left_seg33">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <gazebo reference="Left_seg41">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="Left_seg42">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Left_seg43">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+  <gazebo reference="Left_segt1">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="Left_segt2">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="Left_segt3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+</robot>

@@ -43,7 +43,7 @@
                 },
                 "topics": {
                   "type": "repr",
-                  "repr": "[u'/servo/joint11_position_controller/command/data', u'/servo/joint11_position_controller/state/error']"
+                  "repr": "[u'/baby/Right_joint11_position_controller/command/data', u'/baby/Right_joint11_position_controller/state/error']"
                 }
               },
               "groups": {}
@@ -72,7 +72,7 @@
               "keys": {
                 "publishers": {
                   "type": "repr",
-                  "repr": "u\"[{'topic_name': '/servo/joint11_position_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 100.0, 'expressions': {u'/servo/joint11_position_controller/command/data': 'sin(i/100)'}, 'publisher_id': 0, 'counter': 5243}]\""
+                  "repr": "u\"[{'topic_name': '/baby/Right_joint11_position_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 100.0, 'expressions': {u'/baby/Right_joint11_position_controller/command/data': 'sin(i/100)'}, 'publisher_id': 0, 'counter': 5243}]\""
                 }
               },
               "groups": {}
@@ -165,7 +165,7 @@
                 },
                 "topics": {
                   "type": "repr",
-                  "repr": "[u'/servo/joint11_position_controller/command/data', u'/servo/joint11_position_controller/state/error']"
+                  "repr": "[u'/baby/Right_joint11_position_controller/command/data', u'/baby/Right_joint11_position_controller/state/error']"
                 }
               },
               "groups": {}
@@ -192,7 +192,7 @@
               "keys": {
                 "publishers": {
                   "type": "repr",
-                  "repr": "u\"[{'topic_name': '/servo/joint11_position_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 100.0, 'expressions': {u'/servo/joint11_position_controller/command/data': 'sin(i/100)'}, 'publisher_id': 0, 'counter': 5243}]\""
+                  "repr": "u\"[{'topic_name': '/baby/Right_joint11_position_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 100.0, 'expressions': {u'/baby/Right_joint11_position_controller/command/data': 'sin(i/100)'}, 'publisher_id': 0, 'counter': 5243}]\""
                 }
               },
               "groups": {}
