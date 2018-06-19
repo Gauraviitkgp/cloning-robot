@@ -16,7 +16,7 @@ using namespace cv;
 using namespace std;
 int thetha_right[17];
 int thetha_left[17];
-int thetha_other[10];
+int thetha_other[15];
 
 ros::Publisher Right_jointt1;
 ros::Publisher Right_jointt2;
@@ -58,9 +58,13 @@ ros::Publisher Neck_y;
 ros::Publisher Head_z;
 ros::Publisher Head_x;
 ros::Publisher Right_leg_y;
+ros::Publisher Right_leg_z;
+ros::Publisher Right_leg_x;
 ros::Publisher Right_leg_hinge;
 ros::Publisher Right_foot_y;
 ros::Publisher Left_leg_y;
+ros::Publisher Left_leg_z;
+ros::Publisher Left_leg_x;
 ros::Publisher Left_leg_hinge;
 ros::Publisher Left_foot_y;
 
@@ -80,12 +84,11 @@ void ab()
     createTrackbar("Right_joint41","Right Hand Sliders",&thetha_right[8],157);
     createTrackbar("Right_joint42","Right Hand Sliders",&thetha_right[9],157);
     createTrackbar("Right_hinge","Right Hand Sliders",&thetha_right[10],314);
-    //createTrackbar("Right_palm_x","Right Hand Sliders",&thetha_right[11],314);
     createTrackbar("Right_palm_y","Right Hand Sliders",&thetha_right[12],314);
-    //createTrackbar("Right_palm_z","Right Hand Sliders",&thetha_right[13],314);
-    createTrackbar("Right_hand_y","Right Hand Sliders",&thetha_right[14],314);
-    //createTrackbar("Right_hand_x","Right Hand Sliders",&thetha_right[15],314);
-    //createTrackbar("Right_hand_z","Right Hand Sliders",&thetha_right[16],314);
+    createTrackbar("Right_palm_x","Right Hand Sliders",&thetha_right[11],314);
+    createTrackbar("Right_hand_y","Right Hand Sliders",&thetha_right[14],628);
+    createTrackbar("Right_hand_x","Right Hand Sliders",&thetha_right[15],628);
+    createTrackbar("Right_hand_z","Right Hand Sliders",&thetha_right[16],628);
 
     namedWindow("Left Hand Sliders", CV_WINDOW_NORMAL);
     createTrackbar("Left_jointt1","Left Hand Sliders",&thetha_left[0],157);
@@ -99,22 +102,27 @@ void ab()
     createTrackbar("Left_joint41","Left Hand Sliders",&thetha_left[8],157);
     createTrackbar("Left_joint42","Left Hand Sliders",&thetha_left[9],157);
     createTrackbar("Left_hinge","Left Hand Sliders",&thetha_left[10],314);
-    //createTrackbar("Left_palm_x","Left Hand Sliders",&thetha_left[11],314);
     createTrackbar("Left_palm_y","Left Hand Sliders",&thetha_left[12],314);
-    //createTrackbar("Left_palm_z","Left Hand Sliders",&thetha_left[13],314);
-    createTrackbar("Left_hand_y","Left Hand Sliders",&thetha_left[14],314);
-    //createTrackbar("Left_hand_x","Left Hand Sliders",&thetha_left[15],314);
-    //createTrackbar("Left_hand_z","Left Hand Sliders",&thetha_left[16],314);
+    createTrackbar("Left_palm_z","Left Hand Sliders",&thetha_left[13],628);
+    createTrackbar("Left_palm_x","Left Hand Sliders",&thetha_left[11],314);
+    createTrackbar("Left_hand_y","Left Hand Sliders",&thetha_left[14],628);
+    createTrackbar("Left_hand_x","Left Hand Sliders",&thetha_left[15],628);
+    createTrackbar("Left_hand_z","Left Hand Sliders",&thetha_left[16],628);
+
     namedWindow("Other Sliders", CV_WINDOW_NORMAL);
     createTrackbar("Neck_y","Other Sliders",&thetha_other[0],314);
     createTrackbar("Head_x","Other Sliders",&thetha_other[1],314);
     createTrackbar("Head_z","Other Sliders",&thetha_other[2],314);
     createTrackbar("Right_leg_y","Other Sliders",&thetha_other[3],314);
+    createTrackbar("Right_leg_z","Other Sliders",&thetha_other[9],314);
+    createTrackbar("Right_leg_x","Other Sliders",&thetha_other[10],314);
     createTrackbar("Right_leg_hinge","Other Sliders",&thetha_other[4],157);
     createTrackbar("Right_foot_y","Other Sliders",&thetha_other[5],314);
     createTrackbar("Left_leg_y","Other Sliders",&thetha_other[6],314);
     createTrackbar("Left_leg_hinge","Other Sliders",&thetha_other[7],157);
     createTrackbar("Left_foot_y","Other Sliders",&thetha_other[8],314);
+    createTrackbar("Left_leg_z","Other Sliders",&thetha_other[11],314);
+    createTrackbar("Left_leg_x","Other Sliders",&thetha_other[12],314);
     waitKey(10);
 }
 
@@ -124,8 +132,6 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "arm_joints");
     ros::NodeHandle nh;
-
-    // publisher declaration
 
     Right_jointt1 = nh.advertise<std_msgs::Float64>("/baby/Right_jointt1_position_controller/command", 1);
     Right_jointt2 = nh.advertise<std_msgs::Float64>("/baby/Right_jointt2_position_controller/command", 1);
@@ -163,6 +169,14 @@ int main(int argc, char** argv)
     Left_hand_x = nh.advertise<std_msgs::Float64>("/baby/Left_hand_x_position_controller/command", 1);
     Left_hand_z = nh.advertise<std_msgs::Float64>("/baby/Left_hand_z_position_controller/command", 1);
     
+    thetha_other[0]=157;
+    thetha_other[1]=157;
+    thetha_right[14]=314;//RIght_hand_y
+    thetha_right[15]=314+157;//Right_hand_x
+    thetha_left[14]=314+157;//Left_hand_y
+    thetha_left[15]=157;//Left_hand_x
+
+
     Neck_y = nh.advertise<std_msgs::Float64>("/baby/Neck_y_position_controller/command", 1);
     Head_x = nh.advertise<std_msgs::Float64>("/baby/Head_x_position_controller/command", 1);
     Head_z = nh.advertise<std_msgs::Float64>("/baby/Head_z_position_controller/command", 1);
@@ -172,7 +186,10 @@ int main(int argc, char** argv)
     Right_leg_y = nh.advertise<std_msgs::Float64>("/baby/Right_leg_y_position_controller/command", 1);
     Right_foot_y = nh.advertise<std_msgs::Float64>("/baby/Right_foot_y_position_controller/command", 1);
     Right_leg_hinge = nh.advertise<std_msgs::Float64>("/baby/Right_leg_hinge_position_controller/command", 1);    
-
+    Left_leg_x = nh.advertise<std_msgs::Float64>("/baby/Left_leg_x_position_controller/command", 1);
+    Left_leg_z = nh.advertise<std_msgs::Float64>("/baby/Left_leg_z_position_controller/command", 1);
+    Right_leg_x = nh.advertise<std_msgs::Float64>("/baby/Right_leg_x_position_controller/command", 1);
+    Right_leg_z = nh.advertise<std_msgs::Float64>("/baby/Right_leg_z_position_controller/command", 1);
 
     ros::Rate rate(50.0); // frequency of operation
 
@@ -224,6 +241,10 @@ int main(int argc, char** argv)
         std_msgs::Float64 right_leg_y;
         std_msgs::Float64 right_foot_y;
         std_msgs::Float64 right_leg_hinge;
+        std_msgs::Float64 left_leg_z;
+        std_msgs::Float64 left_leg_x;
+        std_msgs::Float64 right_leg_z;
+        std_msgs::Float64 right_leg_x;
 
         right_jointt1.data = (float)thetha_right[0]/100;
         right_jointt2.data = (float)thetha_right[1]/100;
@@ -311,7 +332,10 @@ int main(int argc, char** argv)
         right_leg_y.data= (float)(thetha_other[6])/100;
         right_leg_hinge.data= (float)(thetha_other[7])/100;
         right_foot_y.data= (float)(thetha_other[8])/100;
-
+        left_leg_z.data= (float)(thetha_other[9])/100;
+        left_leg_x.data= (float)(thetha_other[10])/100;
+        right_leg_z.data= (float)(thetha_other[11])/100;
+        right_leg_x.data= (float)(thetha_other[12])/100;
 
         Left_leg_y.publish(left_leg_y);
         Left_leg_hinge.publish(left_leg_hinge);
@@ -319,7 +343,10 @@ int main(int argc, char** argv)
         Right_leg_y.publish(right_leg_y);
         Right_leg_hinge.publish(right_leg_hinge);
         Right_foot_y.publish(right_foot_y);
-
+        Left_leg_z.publish(left_leg_z);
+        Left_leg_x.publish(left_leg_x);
+        Right_leg_z.publish(right_leg_z);
+        Right_leg_x.publish(right_leg_x);
 
         ros::spinOnce();
         rate.sleep();

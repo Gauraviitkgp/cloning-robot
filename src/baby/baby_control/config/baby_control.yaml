@@ -12,10 +12,30 @@ baby:
     joint: Right_leg_y
     pid: {p: 1000.0, i: 10.0, d: 100.0}
 
+  # Right_leg_x_position_controller:
+  #   type: position_controllers/JointPositionController
+  #   joint: Right_leg_x
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  # Right_leg_z_position_controller:
+  #   type: position_controllers/JointPositionController
+  #   joint: Right_leg_z
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}  
+
   Left_leg_y_position_controller:
     type: position_controllers/JointPositionController
     joint: Left_leg_y
     pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  # Left_leg_x_position_controller:
+  #   type: position_controllers/JointPositionController
+  #   joint: Left_leg_x
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  # Left_leg_z_position_controller:
+  #   type: position_controllers/JointPositionController
+  #   joint: Left_leg_z
+  #   pid: {p: 1000.0, i: 10.0, d: 100.0}    
 
   Right_leg_hinge_position_controller:
     type: position_controllers/JointPositionController
@@ -188,24 +208,32 @@ baby:
     joint: Left_joint42
     pid: {p: 1000.0, i: 10.01, d: 100.0}
 
-  
+  Right_palm_x_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_palm_x
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
 
-  # Right_palm_z_position_controller:
-  #   type: position_controllers/JointPositionController
-  #   joint: Right_palm_z
-  #   pid: {p: 1000.0, i: 10.01, d: 100.0}
+  Left_palm_x_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_palm_x
+    pid: {p: 1000.0, i: 10.01, d: 100.0}
 
-  # Right_palm_x_position_controller:
-  #   type: position_controllers/JointPositionController
-  #   joint: Right_palm_x
-  #   pid: {p: 1000.0, i: 10.01, d: 100.0}
+  Right_hand_x_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_hand_x
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
 
-  # Right_hand_x_position_controller:
-  #   type: position_controllers/JointPositionController
-  #   joint: Right_hand_x
-  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
+  Right_hand_z_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Right_hand_z
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
 
-  # Right_hand_z_position_controller:
-  #   type: position_controllers/JointPositionController
-  #   joint: Right_hand_z
-  #   pid: {p: 1000.0, i: 10.0, d: 100.0}
+  Left_hand_x_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_hand_x
+    pid: {p: 1000.0, i: 10.0, d: 100.0}
+
+  Left_hand_z_position_controller:
+    type: position_controllers/JointPositionController
+    joint: Left_hand_z
+    pid: {p: 1000.0, i: 10.0, d: 100.0}

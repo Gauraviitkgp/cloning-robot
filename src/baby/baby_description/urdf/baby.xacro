@@ -4,12 +4,13 @@
 
   <!-- Constants for robot dimensions -->
   <xacro:property name="PI" value="3.1415926535897931"/>
-  <xacro:property name="mass_chest" value="10" />
+  <xacro:property name="mass_chest" value="10000" />
   <xacro:property name="mass_palm" value="0.2" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_hand" value="20" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_neck" value="2" />
   <xacro:property name="mass_leg" value="25" />
   <xacro:property name="mass_foot" value="10" />
+  <xacro:property name="mass_dummy" value="0.2" />
 
   <xacro:property name="radius" value="0.05" /> <!-- Radii of the cylinder-->
   <xacro:property name="length1" value="0.1" /> <!-- Right_seg42 -->
@@ -21,7 +22,7 @@
   <xacro:property name="x_width" value="0.10" />
   
   <xacro:property name="hand_height" value="2" /> <!-- little width -->
-  <xacro:property name="hand_radius" value="0.40" /> <!-- little width -->
+  <xacro:property name="hand_radius" value="0.20" /> <!-- little width -->
   
   <xacro:property name="chest_height" value="6" /><!-- z-->
   <xacro:property name="chest_width" value="0.5" /><!-- x-->
@@ -45,6 +46,10 @@
   <xacro:property name="foot_length" value="1" />
   <xacro:property name="foot_width" value="1" />
 
+  <xacro:property name="dummy_size" value="1.0" />
+  <xacro:property name="dummy_size_leg" value="2.0" />
+
+
   <xacro:include filename="$(find baby_description)/urdf/baby.gazebo" />
   <xacro:include filename="$(find baby_description)/urdf/materials.xacro" />
 
@@ -54,6 +59,7 @@
     <parent link="root"/>
     <child link="Chest"/>
     <origin xyz="0 0 ${leg_height*2+foot_height}" rpy="0 0 0"/>
+    <limit effort="1000.0" lower="0" upper="6.20" velocity="10"/>
   </joint>
 
 
@@ -89,20 +95,20 @@
   
   <joint name="Right_hand_y" type="revolute">
     <parent link="Chest"/>
-    <child link="Right_upper"/>
-    <origin xyz="0 ${chest_length/2} ${2*chest_height/3}" rpy="-1.57 0 1.57"/>
+    <child link="Right_z_handD"/>
+    <origin xyz="0 ${chest_length/2} ${2*chest_height/3}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="6.20" velocity="10"/>
   </joint>
 
   <joint name="Left_hand_y" type="revolute">
     <parent link="Chest"/>
-    <child link="Left_upper"/>
-    <origin xyz="0 ${-chest_length/2} ${2*chest_height/3}" rpy="-1.57 3.14 1.57"/>
+    <child link="Left_z_handD"/>
+    <origin xyz="0 ${-chest_length/2} ${2*chest_height/3}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="6.20" velocity="10"/>
   </joint>
 
   <joint name="Neck_y_joint" type="revolute">
@@ -132,7 +138,88 @@
     <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
+<!-- ========================3 axis leg joints ========================-->
 
+  <!-- <link name="Right_z_legD"> 
+    <inertial>
+      <origin xyz="0 0 ${-dummy_size_leg/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" iyz="0.0"
+          izz="${mass_dummy*leg_radius*leg_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Right_leg_z" type="revolute">
+    <parent link="Right_z_legD"/>
+    <child link="Right_x_legD"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
+  </joint> 
+
+  <link name="Right_x_legD">
+    <inertial>
+      <origin xyz="0 0 ${-dummy_size_leg/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" iyz="0.0"
+          izz="${mass_dummy*leg_radius*leg_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Right_leg_x" type="revolute">
+    <parent link="Right_x_legD"/>
+    <child link="Right_leg_upper"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
+  </joint>
+
+  <link name="Left_z_legD"> 
+    <inertial>
+      <origin xyz="0 0 ${-dummy_size_leg/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" iyz="0.0"
+          izz="${mass_dummy*leg_radius*leg_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Left_leg_z" type="revolute">
+    <parent link="Left_z_legD"/>
+    <child link="Left_x_legD"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
+  </joint> 
+
+  <link name="Left_x_legD">
+    <inertial>
+      <origin xyz="0 0 ${-dummy_size_leg/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size_leg*dummy_size_leg}" iyz="0.0"
+          izz="${mass_dummy*leg_radius*leg_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Left_leg_x" type="revolute">
+    <parent link="Left_x_legD"/>
+    <child link="Left_leg_upper"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
+  </joint>
+ -->
 <!--=======================Left leg ===================================-->
   
   <link name="Left_leg_upper">
@@ -356,7 +443,7 @@
     <child link="Head_z"/>
     <origin xyz="0 0 ${neck_height}" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit effort="1000" velocity="1.0" />
+    <limit effort="1000" velocity="10.0" />
   </joint>
 
   <link name="Head_z">
@@ -416,20 +503,63 @@
           izz="${mass_neck*3*head_radius*head_radius}"/>
     </inertial>
   </link>
+<!--======================= 3 axis Right hand ============================-->
+
+  <link name="Right_z_handD"> 
+    <inertial>
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Right_hand_z" type="revolute">
+    <parent link="Right_z_handD"/>
+    <child link="Right_x_handD"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="6.28" velocity="10"/>
+  </joint> 
+
+  <link name="Right_x_handD">
+    <inertial>
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Right_hand_x" type="revolute">
+    <parent link="Right_x_handD"/>
+    <child link="Right_upper"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="6.28" velocity="10"/>
+  </joint>
+
 
 <!--======================= Right Hand =================================== -->
+
   <link name="Right_upper">
     <collision>
       <origin xyz="0 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </collision>
 
     <visual>
       <origin xyz="0 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </visual>
 
@@ -439,7 +569,7 @@
       <inertia
           ixx="${1/12*mass_hand*hand_height*hand_height}" ixy="0.0" ixz="0.0"
           iyy="${1/12*mass_hand*hand_height*hand_height}" iyz="0.0"
-          izz="${1/12*mass_hand*hand_radius*hand_radius}"/>
+          izz="${mass_hand*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
@@ -456,14 +586,14 @@
      <collision>
       <origin xyz="${-hand_radius/2} 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </collision>
 
     <visual>
       <origin xyz="${-hand_radius/2} 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </visual>
 
@@ -473,7 +603,7 @@
       <inertia
           ixx="${1/12*mass_hand*hand_height*hand_height}" ixy="0.0" ixz="0.0"
           iyy="${1/12*mass_hand*hand_height*hand_height}" iyz="0.0"
-          izz="${1/12*mass_hand*hand_radius*hand_radius}"/>
+          izz="${mass_hand*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
@@ -482,55 +612,35 @@
   
    <joint name="Right_palm_y" type="revolute"> 
     <parent link="Right_lower"/>
-    <child link="Right_palm"/>
-    <origin xyz="${-hand_radius/2} 0 ${hand_height}" rpy="0 -1.57 0"/>
+    <child link="Right_x_palmD"/>
+    <origin xyz="${-hand_radius/2} 0 ${hand_height}" rpy="-1.57 -1.57 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
-<!--
-  <link name="Right_z_palmD"> 
-    <inertial>
-      <mass value="0.00025" />
-      <inertia ixx="0.0000000005" ixy="0.0" ixz="0.0" iyy="0.0000000005" iyz="0.0" izz="0.0000000005" />
-    </inertial>
-  </link>
 
-  <joint name="Right_palm_z" type="revolute">
-    <parent link="Right_z_palmD"/>
-    <child link="Right_x_palmD"/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
-  </joint>
+
 
   <link name="Right_x_palmD">
     <inertial>
-      <mass value="0.00025" />
-      <inertia ixx="0.0000000005" ixy="0" ixz="0" iyy="0.0000000005" iyz="0" izz="0.0000000005" />
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
   <joint name="Right_palm_x" type="revolute">
     <parent link="Right_x_palmD"/>
-    <child link="Right_y_palmD"/>
+    <child link="Right_palm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
-  <link name="Right_y_palmD">
-    <inertial>
-      <mass value="0.00025" />
-      <inertia ixx="0.0000000005" ixy="0" ixz="0" iyy="0.0000000005" iyz="0" izz="0.0000000005" />
-    </inertial>
-  </link>
-
-  <joint name="Right_palm_d" type="fixed">
-    <parent link="Right_y_palmD"/>
-    <child link="Right_palm"/>
-  </joint>
- -->
 <!--========================Right_PALM ========================================= -->
  
  <link name="Right_palm">
@@ -1096,6 +1206,46 @@
     izz="${mass_palm / 12.0 * (width*width + length2*length2)}"/>
     </inertial>
   </link>
+<!-- ========================3 axis left hand joint ======================-->
+<link name="Left_z_handD"> 
+    <inertial>
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Left_hand_z" type="revolute">
+    <parent link="Left_z_handD"/>
+    <child link="Left_x_handD"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="6.28" velocity="10"/>
+  </joint> 
+
+  <link name="Left_x_handD">
+    <inertial>
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
+    </inertial>
+  </link>
+
+  <joint name="Left_hand_x" type="revolute">
+    <parent link="Left_x_handD"/>
+    <child link="Left_upper"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+    <limit effort="1000.0" lower="0" upper="6.28" velocity="10"/>
+  </joint>
 
 <!--======================= Left Hand =================================== -->
   
@@ -1103,14 +1253,14 @@
     <collision>
       <origin xyz="0 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </collision>
 
     <visual>
       <origin xyz="0 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </visual>
 
@@ -1120,7 +1270,7 @@
       <inertia
           ixx="${1/12*mass_hand*hand_height*hand_height}" ixy="0.0" ixz="0.0"
           iyy="${1/12*mass_hand*hand_height*hand_height}" iyz="0.0"
-          izz="${1/12*mass_hand*hand_radius*hand_radius}"/>
+          izz="${mass_hand*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
@@ -1137,14 +1287,14 @@
      <collision>
       <origin xyz="${-hand_radius/2} 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </collision>
 
     <visual>
       <origin xyz="${-hand_radius/2} 0 ${hand_height/2}" rpy="0 0 0"/>
       <geometry>
-         <box size="${hand_radius} ${hand_radius} ${hand_height}"/>
+         <cylinder radius="${hand_radius}" length="${hand_height}"/>
       </geometry>
     </visual>
 
@@ -1154,7 +1304,7 @@
       <inertia
           ixx="${1/12*mass_hand*hand_height*hand_height}" ixy="0.0" ixz="0.0"
           iyy="${1/12*mass_hand*hand_height*hand_height}" iyz="0.0"
-          izz="${1/12*mass_hand*hand_radius*hand_radius}"/>
+          izz="${mass_hand*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
@@ -1163,55 +1313,53 @@
   
    <joint name="Left_palm_y" type="revolute"> 
     <parent link="Left_lower"/>
-    <child link="Left_palm"/>
+    <child link="Left_z_palmD"/>
     <origin xyz="${-hand_radius/2} 0 ${hand_height}" rpy="0 -1.57 3.14"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
     <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
-<!--
+
   <link name="Left_z_palmD"> 
     <inertial>
-      <mass value="0.00025" />
-      <inertia ixx="0.0000000005" ixy="0.0" ixz="0.0" iyy="0.0000000005" iyz="0.0" izz="0.0000000005" />
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
   <joint name="Left_palm_z" type="revolute">
     <parent link="Left_z_palmD"/>
     <child link="Left_x_palmD"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
-  </joint>
+    <limit effort="1000.0" lower="0" upper="6.28" velocity="10"/>
+  </joint> 
 
   <link name="Left_x_palmD">
     <inertial>
-      <mass value="0.00025" />
-      <inertia ixx="0.0000000005" ixy="0" ixz="0" iyy="0.0000000005" iyz="0" izz="0.0000000005" />
+      <origin xyz="0 0 ${dummy_size/2}" rpy="0 0 0"/>
+      <mass value="${mass_dummy}"/>
+      <inertia
+          ixx="${1/12*mass_dummy*dummy_size*dummy_size}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_dummy*dummy_size*dummy_size}" iyz="0.0"
+          izz="${mass_dummy*hand_radius*hand_radius}"/>
     </inertial>
   </link>
 
   <joint name="Left_palm_x" type="revolute">
     <parent link="Left_x_palmD"/>
-    <child link="Left_y_palmD"/>
+    <child link="Left_palm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="0" upper="1.57" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
-  <link name="Left_y_palmD">
-    <inertial>
-      <mass value="0.00025" />
-      <inertia ixx="0.0000000005" ixy="0" ixz="0" iyy="0.0000000005" iyz="0" izz="0.0000000005" />
-    </inertial>
-  </link>
-
-  <joint name="Left_palm_d" type="fixed">
-    <parent link="Left_y_palmD"/>
-    <child link="Left_palm"/>
-  </joint>
- -->
 <!--========================Left_PALM ========================================= -->
  
  <link name="Left_palm">
@@ -1828,6 +1976,28 @@
     </actuator>
   </transmission>
 
+  <!-- <transmission name="tran_Right_leg_x">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Right_leg_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Right_leg_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_Right_leg_z">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Right_leg_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Right_leg_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> -->
+
   <transmission name="tran_Left_leg_y">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Left_leg_y">
@@ -1838,6 +2008,28 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+
+  <!-- <transmission name="tran_Left_leg_x">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_leg_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Left_leg_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_Left_leg_z">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_leg_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Left_leg_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> -->
 
   <transmission name="tran_Right_leg_hinge">
     <type>transmission_interface/SimpleTransmission</type>
@@ -2176,10 +2368,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-
-
  
- <!--
   <transmission name="tran_Right_palm_x">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Right_palm_x">
@@ -2190,18 +2379,62 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-   
-  <transmission name="tran_Right_palm_z">
+
+  <transmission name="tran_Left_palm_x">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Right_palm_z">
+    <joint name="Left_palm_x">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
-    <actuator name="motor_Right_palm_z">
+    <actuator name="motor_Left_palm_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+     
+  <transmission name="tran_Right_hand_x">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Right_hand_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Right_hand_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+     
+
+  <transmission name="tran_Right_hand_z">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Right_hand_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Right_hand_z">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission> 
-  -->
 
+  <transmission name="tran_Left_hand_x">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_hand_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Left_hand_x">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+     
+
+  <transmission name="tran_Left_hand_z">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Left_hand_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Left_hand_z">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
 
 </robot>
