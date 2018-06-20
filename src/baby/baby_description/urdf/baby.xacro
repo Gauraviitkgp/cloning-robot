@@ -5,13 +5,15 @@
   <!-- Constants for robot dimensions -->
   <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:property name="mass_chest" value="25" />
-  <xacro:property name="mass_palm" value="00.2" /> <!-- arbitrary value for mass -->
+  <xacro:property name="mass_palm" value="0.2" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_hand" value="05" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_neck" value="02" />
   <xacro:property name="mass_leg" value="10" />
-  <xacro:property name="mass_foot" value="5" />
+  <xacro:property name="mass_foot" value="500" />
   <xacro:property name="mass_dummy" value="2.0" />
+
   <!-- Total weight=0.2*8+5*2+10*4+2*1+6*1+5*4+0.2*32+25=1.6+10+40+2+6+20+6.4+25 -->
+  
   <xacro:property name="radius" value="0.05" /> <!-- Radii of the cylinder-->
   <xacro:property name="length1" value="0.01" /> <!-- Right_seg42 -->
   <xacro:property name="length2" value="0.02" /> <!-- Rotator -->
@@ -49,7 +51,6 @@
   <xacro:property name="dummy_size" value="0.10" />
   <xacro:property name="dummy_size_leg" value="0.20" />
 
-
   <xacro:include filename="$(find baby_description)/urdf/baby.gazebo" />
   <xacro:include filename="$(find baby_description)/urdf/materials.xacro" />
 
@@ -62,9 +63,7 @@
     <limit effort="1000.0" lower="0" upper="6.20" velocity="10"/>
   </joint>
 
-
-
-<!--=======================Chest ========================================= -->
+<!--======================= Chest ========================================= -->
 
   <link name="Chest">
     <collision>
@@ -91,6 +90,7 @@
           izz="${mass_chest / 12.0 * (chest_width*chest_width + chest_length*chest_length)}"/>
     </inertial>
   </link>
+  
 <!--======================Chest Joint=================================== -->
   
   <joint name="Right_hand_y" type="revolute">
