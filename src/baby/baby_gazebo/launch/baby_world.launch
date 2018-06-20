@@ -12,7 +12,7 @@
     <arg name="world_name" value="$(find baby_gazebo)/worlds/baby.world"/>
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
-    <arg name="paused" value="$(arg paused)"/>
+    <arg name="paused" value="true"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="headless" value="$(arg headless)"/>
   </include>
@@ -27,7 +27,11 @@
 
 
 
+<<<<<<< HEAD
   <!-- ros_control baby launch file  -->
+=======
+  <!-- ros_control baby launch file -->
+>>>>>>> a1be921752e1b1a103237c6e8eefa59f6623a261
   <include file="$(find baby_control)/launch/baby_control.launch" />  
 
 </launch>
