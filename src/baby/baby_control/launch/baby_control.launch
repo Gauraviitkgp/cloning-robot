@@ -4,15 +4,8 @@
   <rosparam file="$(find baby_control)/config/baby_control.yaml" command="load"/>
   <param name="use_gui" value="true"/>
   <!-- load the controllers -->
-<!--   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen" ns="/baby" args="joint_state_controller
-<<<<<<< HEAD
- Right_hand_controller  Right_jointt1_position_controller Right_jointt2_position_controller Right_joint11_position_controller Right_joint12_position_controller Right_joint21_position_controller Right_joint22_position_controller Right_joint31_position_controller Right_joint32_position_controller Right_joint41_position_controller Right_joint42_position_controller Left_jointt1_position_controller Left_jointt2_position_controller Left_joint11_position_controller Left_joint12_position_controller Left_joint21_position_controller Left_joint22_position_controller Left_joint31_position_controller Left_joint32_position_controller Left_joint41_position_controller Left_joint42_position_controller  
-=======
-Right_hinge_position_controller 
-"/> -->
-
-<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+<!-- =============================Indivisual nodes========================================= -->
+<!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
   output="screen" ns="/baby" args="joint_state_controller
 Right_hinge_position_controller Right_hand_y_position_controller Right_hand_x_position_controller Right_hand_z_position_controller Right_palm_y_position_controller Right_palm_x_position_controller Right_jointt1_position_controller Right_jointt2_position_controller Right_joint11_position_controller Right_joint12_position_controller Right_joint21_position_controller Right_joint22_position_controller Right_joint31_position_controller Right_joint32_position_controller Right_joint41_position_controller Right_joint42_position_controller Left_hinge_position_controller Left_hand_y_position_controller Left_hand_z_position_controller Left_hand_x_position_controller  Left_palm_y_position_controller  Left_palm_x_position_controller  Left_jointt1_position_controller Left_jointt2_position_controller Left_joint11_position_controller Left_joint12_position_controller Left_joint21_position_controller Left_joint22_position_controller Left_joint31_position_controller Left_joint32_position_controller Left_joint41_position_controller Left_joint42_position_controller  Neck_y_position_controller Head_x_position_controller Head_z_position_controller
 Right_leg_y_position_controller
@@ -21,8 +14,12 @@ Right_leg_hinge_position_controller
 Right_foot_y_position_controller
 Left_leg_hinge_position_controller
 Left_foot_y_position_controller
->>>>>>> a1be921752e1b1a103237c6e8eefa59f6623a261
-"/>
+"/> -->
+<!-- =============================Leg nodes========================================= -->
+<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" ns="/baby" args="joint_state_controller
+Right_jointt1_position_controller Right_jointt2_position_controller Right_joint11_position_controller Right_joint12_position_controller Right_joint21_position_controller Right_joint22_position_controller Right_joint31_position_controller Right_joint32_position_controller Right_joint41_position_controller Right_joint42_position_controller Left_jointt1_position_controller Left_jointt2_position_controller Left_joint11_position_controller Left_joint12_position_controller Left_joint21_position_controller Left_joint22_position_controller Left_joint31_position_controller Left_joint32_position_controller Left_joint41_position_controller Left_joint42_position_controller  Neck_y_position_controller Head_x_position_controller Head_z_position_controller Leg_controller Hand_controller"/>
+
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
 	respawn="false" output="screen">

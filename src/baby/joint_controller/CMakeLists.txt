@@ -25,8 +25,10 @@ install(DIRECTORY src
 
 
 add_executable(arm_joints src/joint_state_publisher.cpp )
-add_executable(trajectory src/trajectory.cpp)
+add_executable(Hand_movement src/Hand_movement.cpp)
+add_executable(Leg_movement src/Leg_movement.cpp)
 
 target_link_libraries(arm_joints ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-target_link_libraries(trajectory ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(Hand_movement ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+target_link_libraries(Leg_movement ${catkin_LIBRARIES})
     

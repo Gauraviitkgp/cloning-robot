@@ -11,6 +11,8 @@
 
   <gazebo reference="Chest">
     <material>Gazebo/Blue</material>
+    <mu1>1000000</mu1>
+    <mu2>1000000</mu2>
   </gazebo>
 
   <gazebo reference="Right_leg_upper">
@@ -19,8 +21,6 @@
 
   <gazebo reference="Right_leg_lower">
     <material>Gazebo/Green</material>
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
   </gazebo>
 
   <gazebo reference="Left_leg_upper">
@@ -29,16 +29,18 @@
 
   <gazebo reference="Left_leg_lower">
     <material>Gazebo/Green</material>
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
   </gazebo>
 
   <gazebo reference="Left_foot">
     <material>Gazebo/Black</material>
+    <mu1>10</mu1>
+    <mu2>10</mu2>
   </gazebo>
 
   <gazebo reference="Right_foot">
     <material>Gazebo/Black</material>
+    <mu1>10</mu1>
+    <mu2>10</mu2>
   </gazebo>
 
   <gazebo reference="Right_upper">
@@ -46,8 +48,6 @@
   </gazebo>
   <gazebo reference="Right_lower">
     <material>Gazebo/Green</material>
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
   </gazebo>
   <gazebo reference="Right_palm">
     <material>Gazebo/Brown</material>
@@ -59,8 +59,6 @@
 
 
   <gazebo reference="Right_seg12">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -74,8 +72,6 @@
 
 
   <gazebo reference="Right_seg22">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -89,8 +85,6 @@
   </gazebo>
 
   <gazebo reference="Right_seg32">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -104,8 +98,6 @@
   </gazebo>
 
   <gazebo reference="Right_seg42">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -119,8 +111,6 @@
   </gazebo>
 
   <gazebo reference="Right_segt2">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -134,8 +124,6 @@
   </gazebo>
   <gazebo reference="Left_lower">
     <material>Gazebo/Green</material>
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
   </gazebo>
   <gazebo reference="Left_palm">
     <material>Gazebo/Brown</material>
@@ -147,8 +135,6 @@
 
 
   <gazebo reference="Left_seg12">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -162,8 +148,6 @@
 
 
   <gazebo reference="Left_seg22">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -177,8 +161,6 @@
   </gazebo>
 
   <gazebo reference="Left_seg32">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -192,8 +174,6 @@
   </gazebo>
 
   <gazebo reference="Left_seg42">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -207,8 +187,6 @@
   </gazebo>
 
   <gazebo reference="Left_segt2">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
     <material>Gazebo/Black</material>
   </gazebo>
 

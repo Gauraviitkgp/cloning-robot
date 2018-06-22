@@ -85,17 +85,15 @@ void ab()
     createTrackbar("Right_joint42","Right Hand Sliders",&thetha_right[9],157);
     createTrackbar("Right_hinge","Right Hand Sliders",&thetha_right[10],314);
     createTrackbar("Right_palm_y","Right Hand Sliders",&thetha_right[12],314);
-<<<<<<< HEAD
+
     //createTrackbar("Right_palm_z","Right Hand Sliders",&thetha_right[13],314);
     createTrackbar("Right_hand","Right Hand Sliders",&thetha_right[14],314);
     //createTrackbar("Right_hand_x","Right Hand Sliders",&thetha_right[15],314);
     //createTrackbar("Right_hand_z","Right Hand Sliders",&thetha_right[16],314);
-=======
     createTrackbar("Right_palm_x","Right Hand Sliders",&thetha_right[11],314);
     createTrackbar("Right_hand_y","Right Hand Sliders",&thetha_right[14],628);
     createTrackbar("Right_hand_x","Right Hand Sliders",&thetha_right[15],628);
     createTrackbar("Right_hand_z","Right Hand Sliders",&thetha_right[16],628);
->>>>>>> a1be921752e1b1a103237c6e8eefa59f6623a261
 
     namedWindow("Left Hand Sliders", CV_WINDOW_NORMAL);
     createTrackbar("Left_jointt1","Left Hand Sliders",&thetha_left[0],157);
@@ -178,6 +176,8 @@ int main(int argc, char** argv)
     
     thetha_other[0]=157;//Neck joints
     thetha_other[1]=157;
+    thetha_other[3]=157;//Right joints
+    thetha_other[6]=157;//Left Hand
     thetha_right[14]=314;//RIght_hand_y
     thetha_right[15]=314+157;//Right_hand_x
     thetha_left[14]=314+157;//Left_hand_y
@@ -333,10 +333,10 @@ int main(int argc, char** argv)
         Head_x.publish(head_x);
         Head_z.publish(head_z);
 
-        left_leg_y.data= (float)(thetha_other[3])/100;
+        left_leg_y.data= (float)(thetha_other[3]-157)/100;
         left_leg_hinge.data= (float)(thetha_other[4])/100;
         left_foot_y.data= (float)(thetha_other[5])/100;
-        right_leg_y.data= (float)(thetha_other[6])/100;
+        right_leg_y.data= (float)(thetha_other[6]-157)/100;
         right_leg_hinge.data= (float)(thetha_other[7])/100;
         right_foot_y.data= (float)(thetha_other[8])/100;
         left_leg_z.data= (float)(thetha_other[9])/100;
