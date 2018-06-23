@@ -7,11 +7,11 @@
       <uri>model://ground_plane</uri>
     </include>
 
+    <gravity>0.0 0 -60.0</gravity>
     <!-- Global light source -->
     <include>
       <uri>model://sun</uri>
     </include>
-
 
   </world>
 </sdf>
