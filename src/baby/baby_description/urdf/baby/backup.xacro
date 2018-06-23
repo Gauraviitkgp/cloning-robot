@@ -5,12 +5,12 @@
   <!-- Constants for robot dimensions -->
   <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:property name="mass_chest" value="30" />
-  <xacro:property name="mass_palm" value="0.8" /> <!-- arbitrary value for mass -->
+  <xacro:property name="mass_palm" value="0.2" /> <!-- arbitrary value for mass -->
 
   <xacro:property name="mass_hand" value="05" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_neck" value="02" />
   <xacro:property name="mass_leg" value="10" />
-  <xacro:property name="mass_foot" value="30" />
+  <xacro:property name="mass_foot" value="5" />
   <xacro:property name="mass_dummy" value="2.0" />
   <!-- Total weight=0.2*8+5*2+10*4+2*1+6*1+5*4+0.2*32+25=1.6+10+40+2+6+20+6.4+25 -->
   <xacro:property name="radius" value="0.05" /> <!-- Radii of the cylinder-->
@@ -24,8 +24,6 @@
   <xacro:property name="chest_height" value="0.6" /><!-- z-->
   <xacro:property name="chest_width" value="0.05" /><!-- x-->
   <xacro:property name="chest_length" value="0.3" /><!--y-->
-
-  <xacro:property name="eye_size" value="0.003" />
 
   <xacro:property name="palm_height" value="0.11" />
   <xacro:property name="palm_length" value="0.1" /> <!--y-->
@@ -50,8 +48,8 @@
   <xacro:property name="leg_radius" value="0.02" />
 
   <xacro:property name="foot_height" value="0.02" />
-  <xacro:property name="foot_length" value="0.3" />
-  <xacro:property name="foot_width" value="0.3" />
+  <xacro:property name="foot_length" value="0.4" />
+  <xacro:property name="foot_width" value="0.4" />
 
   <xacro:property name="dummy_size" value="0.10" />
   <xacro:property name="dummy_size_leg" value="0.20" />
@@ -259,7 +257,7 @@
     <origin xyz="0 0 ${-leg_height}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
   <link name="Left_leg_lower">
@@ -354,7 +352,7 @@
     <origin xyz="0 0 ${-leg_height}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="-3.14" upper="3.14" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="3.14" velocity="10"/>
   </joint>
 
   <link name="Right_leg_lower">
@@ -507,97 +505,6 @@
           ixx="${1/12*mass_neck*3*head_height*head_height}" ixy="0.0" ixz="0.0"
           iyy="${1/12*mass_neck*3*head_height*head_height}" iyz="0.0"
           izz="${mass_neck*3*head_radius*head_radius}"/>
-    </inertial>
-  </link>
-
-<!--========================= Eyes =====================================-->
-  <joint name="Left_eye_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz="${head_radius/1.414} ${head_radius/1.414} ${head_height/2}" rpy="0 0 0"/>
-    <parent link="Head"/>
-    <child link="Left_eye"/>
-  </joint>
-  <joint name="Right_eye_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz="${head_radius/1.414} ${-head_radius/1.414} ${head_height/2}" rpy="0 0 0"/>
-    <parent link="Head"/>
-    <child link="Right_eye"/>
-  </joint>
-
-  <link name="Left_eye">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-    </collision>
-
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia 
-        ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-      </inertial>
-  </link>
-  <link name="Right_eye">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-    </collision>
-
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia 
-        ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-      </inertial>
-  </link>
-<!--=======================Scanner=======================================-->
-  <joint name="Hokuyo_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz="0 0 ${head_height}" rpy="0 0 0"/>
-    <parent link="Head"/>
-    <child link="Hokuyo_link"/>
-  </joint>
-
-  <!-- Hokuyo Laser -->
-  <link name="Hokuyo_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-    </collision>
-
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://baby_description/meshes/hokuyo.dae"/>
-      </geometry>
-    </visual>
-
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
   </link>
 <!--======================= 3 axis Right hand ============================-->

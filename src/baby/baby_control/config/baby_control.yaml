@@ -151,7 +151,7 @@ baby:
     joint: Right_palm_x
     pid:  {p: 40000, i: 0, d: 0}
 
-  #Left Hand controllers
+  # #Left Hand controllers
 
   Left_hand_y_position_controller:
     type: effort_controllers/JointPositionController

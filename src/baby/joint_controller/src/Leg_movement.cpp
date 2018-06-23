@@ -2,9 +2,11 @@
 #include <trajectory_msgs/JointTrajectory.h>
 #include "ros/time.h"
 #include <iostream>
+#include <math.h>
 #define JOINTS 6
 #define JOINTS2 12
 #define PI  3.1415926535897931
+#define WP 6
 using namespace std;
 
 ros::Publisher Leg;
@@ -59,22 +61,32 @@ int main(int argc, char** argv)
     ros::Time T=ros::Time::now();
     
     ros::Duration D;
-    ros::Duration TFS[7];
-    ros::Duration sleep[6];
+    ros::Duration TFS[WP];
+    ros::Duration sleep[WP];
+    ros::Duration cumilative[WP];
 
     TFS[0]=ros::Duration(3.0);//Secs for first program
-    TFS[1]=ros::Duration(1.0);
-    TFS[2]=ros::Duration(1.0);
-    TFS[3]=ros::Duration(1.0);
-    TFS[4]=ros::Duration(1.0);
-    TFS[5]=ros::Duration(1.0);
-    TFS[6]=ros::Duration(1.0);
-    sleep[0]=ros::Duration(1.0);
+    TFS[1]=ros::Duration(0.5);
+    TFS[2]=ros::Duration(0.5);
+    TFS[3]=ros::Duration(0.5);
+    TFS[4]=ros::Duration(0.5);
+    TFS[5]=ros::Duration(0.5);
+    sleep[0]=ros::Duration(0.0);
     sleep[1]=ros::Duration(0.0);
     sleep[2]=ros::Duration(0.0);
     sleep[3]=ros::Duration(0.0);
     sleep[4]=ros::Duration(0.0);
-    sleep[5]=ros::Duration(0.0);//sec for which position will be held
+    sleep[5]=ros::Duration(0.3);//sec for which position will be held
+    ros::Duration sum;
+    for (int i=0;i<WP;i++)
+    {
+        sum=ros::Duration(0.0);
+        for(int j=0;j<=i;j++)
+            sum+=TFS[j]+sleep[j];
+        cout<<sum;
+        cumilative[i]=sum;
+    }
+
     while(ros::ok()) 
     {
         traj.header.stamp = ros::Time::now();
@@ -83,10 +95,10 @@ int main(int argc, char** argv)
         cout<<D.toSec()<<endl;
         cout<<TFS[0].toSec()+sleep[0].toSec()<<endl;
 
-        if(D.toSec()<=TFS[0].toSec()+sleep[0].toSec())
+        if(D.toSec()<=cumilative[0].toSec())
         {
             traj.points[0].positions.resize(JOINTS);
-            traj.points[0].positions={-PI/4,-PI/4,PI/2,PI/2,-PI/4,-PI/4};
+            traj.points[0].positions={+PI/4,+PI/4,-PI/2,-PI/2,+PI/4,+PI/4};
             traj.points[0].velocities.resize(JOINTS);
             traj.points[0].velocities={0,0,0,0,0,0};
             traj.points[0].accelerations.resize(JOINTS);
@@ -104,12 +116,26 @@ int main(int argc, char** argv)
         traj2.points[0].accelerations={0,0,0,0,0,0,0,0,0,0,0,0};
         traj2.points[0].effort.resize(JOINTS2);
         traj2.points[0].effort={0,0,0,0,0,0,0,0,0,0,0,0};
-        traj2.points[0].time_from_start = TFS[1];
+        traj2.points[0].time_from_start = TFS[0];
 
-        if(4<D.toSec() && D.toSec()<=5)
+        if(cumilative[0].toSec()<D.toSec() && D.toSec()<=cumilative[1].toSec())
         {
             traj.points[0].positions.resize(JOINTS);
-            traj.points[0].positions={-PI/2,-PI/4,PI/4,PI/2,0,-PI/4};//Lifting Right Leg
+            traj.points[0].positions={+0,+PI/4,-PI/2,-PI/2,+PI/2,+PI/4};//Lifting Right Leg
+            traj.points[0].velocities.resize(JOINTS);
+            traj.points[0].velocities={0,0,0,0,0,0};
+            traj.points[0].accelerations.resize(JOINTS);
+            traj.points[0].accelerations={0,0,0,0,0,0};
+            traj.points[0].effort.resize(JOINTS);
+            traj.points[0].effort={0,0,0,0,0,0};
+            traj.points[0].time_from_start = TFS[1];
+            cout<<"Enter trajectory 1"<<endl;
+        }
+
+        if(cumilative[1].toSec()<D.toSec() && D.toSec()<=cumilative[2].toSec())
+        {
+            traj.points[0].positions.resize(JOINTS);
+            traj.points[0].positions={+0,+PI/4,-acos(sqrt(2)-1),-PI/2,+acos(sqrt(2)-1),+PI/4};//Pressing Right Leg
             traj.points[0].velocities.resize(JOINTS);
             traj.points[0].velocities={0,0,0,0,0,0};
             traj.points[0].accelerations.resize(JOINTS);
@@ -117,13 +143,15 @@ int main(int argc, char** argv)
             traj.points[0].effort.resize(JOINTS);
             traj.points[0].effort={0,0,0,0,0,0};
             traj.points[0].time_from_start = TFS[2];
-            cout<<"Enter trajectory 1"<<endl;
+            cout<<"Enter trajectory 2"<<endl;
+            
+
         }
 
-        if(5<D.toSec() && D.toSec()<=6)
+        if(cumilative[2].toSec()<D.toSec() && D.toSec()<=cumilative[3].toSec())
         {
             traj.points[0].positions.resize(JOINTS);
-            traj.points[0].positions={-PI/4,-PI/4,PI/4,PI/2,0,-PI/4};//Pressing Right Leg
+            traj.points[0].positions={+PI/4,+acos(sqrt(2)-1),-PI/2,-acos(sqrt(2)-1),+PI/4,0};//Lifting Left Leg
             traj.points[0].velocities.resize(JOINTS);
             traj.points[0].velocities={0,0,0,0,0,0};
             traj.points[0].accelerations.resize(JOINTS);
@@ -131,13 +159,14 @@ int main(int argc, char** argv)
             traj.points[0].effort.resize(JOINTS);
             traj.points[0].effort={0,0,0,0,0,0};
             traj.points[0].time_from_start = TFS[3];
-            cout<<"Enter trajectory 2"<<endl;
+            cout<<"Enter trajectory 3"<<endl;
+            
         }
 
-        if(6<D.toSec() && D.toSec()<=7)
+        if(cumilative[3].toSec()<D.toSec() && D.toSec()<=cumilative[4].toSec())
         {
             traj.points[0].positions.resize(JOINTS);
-            traj.points[0].positions={-PI/4,-PI/2,PI/4,PI/4,0,0};//Lifting Left Leg
+            traj.points[0].positions={+PI/4,+PI/2,-PI/2,-PI/2,+PI/4,0};//Pressing Left Leg
             traj.points[0].velocities.resize(JOINTS);
             traj.points[0].velocities={0,0,0,0,0,0};
             traj.points[0].accelerations.resize(JOINTS);
@@ -145,13 +174,13 @@ int main(int argc, char** argv)
             traj.points[0].effort.resize(JOINTS);
             traj.points[0].effort={0,0,0,0,0,0};
             traj.points[0].time_from_start = TFS[4];
-            cout<<"Enter trajectory 3"<<endl;
+            cout<<"Enter trajectory 4"<<endl;
         }
 
-        if(7<D.toSec() && D.toSec()<=8)
+        if(cumilative[4].toSec()<D.toSec())
         {
             traj.points[0].positions.resize(JOINTS);
-            traj.points[0].positions={-PI/4,-PI/4,PI/4,PI/4,0,0};//Pressing Left Leg
+            traj.points[0].positions={+PI/4,+PI/4,-PI/2,-PI/2,+PI/4,+PI/4};
             traj.points[0].velocities.resize(JOINTS);
             traj.points[0].velocities={0,0,0,0,0,0};
             traj.points[0].accelerations.resize(JOINTS);
@@ -159,22 +188,8 @@ int main(int argc, char** argv)
             traj.points[0].effort.resize(JOINTS);
             traj.points[0].effort={0,0,0,0,0,0};
             traj.points[0].time_from_start = TFS[5];
-            cout<<"Enter trajectory 4"<<endl;
-        }
-
-        if(8<D.toSec())
-        {
-            traj.points[0].positions.resize(JOINTS);
-            traj.points[0].positions={-PI/4,-PI/4,PI/2,PI/2,-PI/4,-PI/4};
-            traj.points[0].velocities.resize(JOINTS);
-            traj.points[0].velocities={0,0,0,0,0,0};
-            traj.points[0].accelerations.resize(JOINTS);
-            traj.points[0].accelerations={0,0,0,0,0,0};
-            traj.points[0].effort.resize(JOINTS);
-            traj.points[0].effort={0,0,0,0,0,0};
-            traj.points[0].time_from_start = TFS[6];
             cout<<"Enter trajectory 5"<<endl;
-            if(11<D.toSec())
+            if(cumilative[5].toSec()<D.toSec())
                 T=ros::Time::now()-ros::Duration(3.0);
         }
 
