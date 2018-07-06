@@ -111,14 +111,19 @@ baby:
     pid: {p: 40000.0, i: 0.0, d: 0.0}
 
   Head_x_position_controller:
-    type: position_controllers/JointPositionController
+    type: effort_controllers/JointEffortController
     joint: Head_x_joint
     pid: {p: 40000.0, i: 0.0, d: 0.0}
 
-  Head_z_position_controller:
-    type: position_controllers/JointPositionController
-    joint: Head_z_joint
-    pid: {p: 40000.0, i: 0.0, d: 0.0}
+  # Hokuyo_position_controller:
+  #   type: position_controllers/JointPositionController
+  #   joint: Hokuyo_joint
+  #   pid: {p: 40000.0, i: 0.0, d: 0.0}  
+
+  # Head_z_position_controller:
+  #   type: position_controllers/JointPositionController
+  #   joint: Head_z_joint
+  #   pid: {p: 40000.0, i: 0.0, d: 0.0}
   
   #Right Hand controllers
   Right_hand_y_position_controller:

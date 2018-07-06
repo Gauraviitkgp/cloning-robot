@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot>
 
+  <gazebo reference="baby">
+    <static>true</static>
+  </gazebo>
   <!-- ros_control plugin -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
@@ -53,7 +56,7 @@
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise> -->
-        </camera>
+      </camera>
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
@@ -68,6 +71,7 @@
         <distortionT1>0.0</distortionT1>
         <distortionT2>0.0</distortionT2>
       </plugin>
+       
     </sensor>
   </gazebo>
 
@@ -112,22 +116,43 @@
     </sensor>
   </gazebo>
 
+  <gazebo reference="imu_sensor">
+    <gravity>true</gravity>
+    <sensor name="imu_sr" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>/baby/imu/</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>/baby/imu</topicName>
+        <bodyName>imu_sensor</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
   <gazebo reference="Hokuyo_link">
     <sensor type="gpu_ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>40</update_rate>
+      <update_rate>100</update_rate>
       <ray>
         <scan>
           <horizontal>
-            <samples>1020</samples>
+            <samples>1320</samples>
             <resolution>1</resolution>
-            <min_angle>-1.570796</min_angle>
-            <max_angle>1.570796</max_angle>
+            <min_angle>0</min_angle>
+            <max_angle>2.8</max_angle>
           </horizontal>
+          
         </scan>
         <range>
-          <min>0.10</min>
+          <min>1.20 </min>
           <max>30.0</max>
           <resolution>0.01</resolution>
         </range>
@@ -151,10 +176,10 @@
 
   <gazebo reference="Left_foot">
     <material>Gazebo/Black</material>
-    <mu1>1</mu1>
-    <mu2>1</mu2>
+    <mu1>10</mu1>
+    <mu2>10</mu2>
     <fdir1>1 0 0</fdir1>
-    <maxContacts>10000</maxContacts>
+    <maxContacts>100000</maxContacts>
     <minDepth>0.005</minDepth>
     <gravity>true</gravity>
     <collision name="left_foot_collision_1">
@@ -164,29 +189,29 @@
         </box>
       </geometry>
       <surface>
-              <friction>
-                      <torsional>
-                              <coefficient>10</coefficient>
-                              <use_patch_radius>false</use_patch_radius>
-                              <!-- should be the same as collision sphere radius -->
-                              <surface_radius>0.02175</surface_radius>
-                              <patch_radius>0.01</patch_radius>
-                      </torsional>
-              </friction>
-              <contact>
-                      <poissons_ratio>0.5</poissons_ratio>
-                      <elastic_modulus>1e8</elastic_modulus>
-              </contact>
+        <friction>
+          <torsional>
+            <coefficient>10</coefficient>
+            <use_patch_radius>false</use_patch_radius>
+            <!-- should be the same as collision sphere radius -->
+            <surface_radius>0.02175</surface_radius>
+            <patch_radius>0.01</patch_radius>
+          </torsional>
+        </friction>
+        <contact>
+          <poissons_ratio>0.5</poissons_ratio>
+          <elastic_modulus>1e8</elastic_modulus>
+        </contact>
       </surface>
     </collision>
   </gazebo>
 
   <gazebo reference="Right_foot">
     <material>Gazebo/Black</material>
-    <mu1>1</mu1>
-    <mu2>1</mu2>
+    <mu1>10</mu1>
+    <mu2>10</mu2>
     <fdir1>1 0 0</fdir1>
-    <maxContacts>10000</maxContacts>
+    <maxContacts>100000</maxContacts>
     <minDepth>0.005</minDepth>
     <gravity>true</gravity>
     <collision name="right_foot_collision_1">
@@ -196,22 +221,23 @@
         </box>
       </geometry>
       <surface>
-              <friction>
-                      <torsional>
-                              <coefficient>10</coefficient>
-                              <use_patch_radius>false</use_patch_radius>
-                              <!-- should be the same as collision sphere radius -->
-                              <surface_radius>0.02175</surface_radius>
-                              <patch_radius>0.01</patch_radius>
-                      </torsional>
-              </friction>
-              <contact>
-                      <poissons_ratio>0.5</poissons_ratio>
-                      <elastic_modulus>1e8</elastic_modulus>
-              </contact>
+        <friction>
+          <torsional>
+            <coefficient>10</coefficient>
+            <use_patch_radius>false</use_patch_radius>
+            <!-- should be the same as collision sphere radius -->
+            <surface_radius>0.02175</surface_radius>
+            <patch_radius>0.01</patch_radius>
+          </torsional>
+        </friction>
+        <contact>
+          <poissons_ratio>0.5</poissons_ratio>
+          <elastic_modulus>1e8</elastic_modulus>
+        </contact>
       </surface>
     </collision>
   </gazebo>
+
 
   <gazebo reference="Right_upper">
     <material>Gazebo/Green</material>

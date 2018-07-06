@@ -10,7 +10,7 @@
   <xacro:property name="mass_hand" value="05" /> <!-- arbitrary value for mass -->
   <xacro:property name="mass_neck" value="02" />
   <xacro:property name="mass_leg" value="10" />
-  <xacro:property name="mass_foot" value="50" />
+  <xacro:property name="mass_foot" value="30" />
   <xacro:property name="mass_dummy" value="2.0" />
   <!-- Total weight=0.2*8+5*2+10*4+2*1+6*1+5*4+0.2*32+25=1.6+10+40+2+6+20+6.4+25 -->
   <xacro:property name="radius" value="0.05" /> <!-- Radii of the cylinder-->
@@ -102,19 +102,19 @@
   <joint name="Right_hand_y" type="revolute">
     <parent link="Chest"/>
     <child link="Right_z_handD"/>
-    <origin xyz="0 ${chest_length/2} ${chest_height}" rpy="0 3.14 0"/>
+    <origin xyz="0 ${chest_length/2} ${chest_height}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="-6.28" upper="6.28" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="6.20" velocity="10"/>
   </joint>
 
   <joint name="Left_hand_y" type="revolute">
     <parent link="Chest"/>
     <child link="Left_z_handD"/>
-    <origin xyz="0 ${-chest_length/2} ${chest_height}" rpy="0 3.14 0"/>
+    <origin xyz="0 ${-chest_length/2} ${chest_height}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit effort="1000.0" lower="-6.28" upper="6.28" velocity="10"/>
+    <limit effort="1000.0" lower="0" upper="6.20" velocity="10"/>
   </joint>
 
   <joint name="Neck_y_joint" type="revolute">
@@ -144,37 +144,6 @@
     <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="10"/>
   </joint>
 
-  <joint name="imu_joint" type="fixed">
-    <parent link="Chest"/>
-    <child link="imu_sensor"/>
-    <origin xyz="${chest_width/2} 0 0 " rpy="0 0 0"/>
-  </joint>
-
-<!-- ========================3 axis leg joints ========================-->
-
-  <link name="imu_sensor">
-    <collision>
-      <origin xyz="${eye_size/2} 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-    </collision>
-
-    <visual>
-      <origin xyz="${eye_size/2} 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="${eye_size/2} 0 0" rpy="0 0 0"/>
-      <inertia 
-        ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-      </inertial>
-  </link>
 <!-- ========================3 axis leg joints ========================-->
 
   <!-- <link name="Right_z_legD"> 
@@ -475,14 +444,45 @@
     </inertial>
   </link>
 
- 
-  <joint name="Head_x_joint" type="continuous">
+ <joint name="Head_z_joint" type="revolute">
+    <parent link="Neck"/>
+    <child link="Head_z"/>
+    <origin xyz="0 0 ${neck_height}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000" velocity="10.0" />
+  </joint>
+
+  <link name="Head_z">
+    <collision>
+      <origin xyz="0 0 ${head_height/20000}" rpy="0 0 0"/>
+      <geometry>
+         <cylinder length ="${head_height/10000}" radius="${head_radius/10000}"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 ${head_height/20000}" rpy="0 0 0"/>
+      <geometry>
+         <cylinder length ="${head_height/10000}" radius="${head_radius/10000}"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${head_height/20000}" rpy="0 0 0"/>
+      <mass value="${mass_neck/10000}"/>
+      <inertia
+          ixx="${1/12*mass_neck/10000*head_height/10000*head_height/10000}" ixy="0.0" ixz="0.0"
+          iyy="${1/12*mass_neck/10000*head_height/10000*head_height/10000}" iyz="0.0"
+          izz="${mass_neck/10000*head_radius/10000*head_radius/10000}"/>
+    </inertial>
+  </link>
+
+  <joint name="Head_x_joint" type="revolute">
     <parent link="Neck"/>
     <child link="Head"/>
     <origin xyz="0 0 ${neck_height}" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
+    <axis xyz="1 0 0"/>
     <limit effort="1000" velocity="1.0" />
-    <dynamics damping="0.7"/>
   </joint>
 
   <link name="Head">
@@ -547,7 +547,6 @@
         ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
       </inertial>
   </link>
-
   <link name="Right_eye">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -571,13 +570,10 @@
         ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
       </inertial>
   </link>
-
 <!--=======================Scanner=======================================-->
-  
-
   <joint name="Hokuyo_joint" type="fixed">
-    <axis xyz="1 0 0" />
-    <origin xyz="0 0 ${head_height+eye_size/2}" rpy="0 1.57 0"/>
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 ${head_height}" rpy="0 0 0"/>
     <parent link="Head"/>
     <child link="Hokuyo_link"/>
   </joint>
@@ -594,15 +590,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="${eye_size} ${eye_size} ${eye_size}"/>
+        <mesh filename="package://baby_description/meshes/hokuyo.dae"/>
       </geometry>
-      <material name="red"/>
     </visual>
 
     <inertial>
       <mass value="1e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-8" ixy="0" ixz="0" iyy="1e-8" iyz="0" izz="1e-8" />
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
   </link>
 <!--======================= 3 axis Right hand ============================-->
@@ -2031,17 +2026,6 @@
 
 
 <!-- ==================TRANSMISSION LINE =========================== -->
-
-<!--   <transmission name="tran_Hokuyo_joint">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="Hokuyo_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_Hokuyo_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission> -->
 <!-- ============================= Head transmission ========================== -->
   <transmission name="tran_Neck_y_joint">
     <type>transmission_interface/SimpleTransmission</type>
@@ -2054,13 +2038,24 @@
     </actuator>
   </transmission>
 
+  <transmission name="tran_Head_z_joint">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Head_z_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_Head_z_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
   <transmission name="tran_Head_x_joint">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Head_x_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_Head_x_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>

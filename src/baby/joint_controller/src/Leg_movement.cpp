@@ -92,9 +92,8 @@ int main(int argc, char** argv)
         traj.header.stamp = ros::Time::now();
         traj2.header.stamp = ros::Time::now();
         D=ros::Time::now()-T;
-        cout<<D.toSec()<<endl;
-        cout<<TFS[0].toSec()+sleep[0].toSec()<<endl;
-
+        cout<<D.toSec()<<endl<<T<<endl;
+        
         if(D.toSec()<=cumilative[0].toSec())
         {
             traj.points[0].positions.resize(JOINTS);
@@ -109,7 +108,7 @@ int main(int argc, char** argv)
             cout<<"Enter trajectory 0"<<endl;
         }//Initital Setting
         traj2.points[0].positions.resize(JOINTS2);
-        traj2.points[0].positions={0,PI,PI,PI/2,0,0,0,PI,3*PI/2,PI/2,0,0};
+        traj2.points[0].positions={0,0,0,0,0,0,0,0,0,0,0,0};
         traj2.points[0].velocities.resize(JOINTS2);
         traj2.points[0].velocities={0,0,0,0,0,0,0,0,0,0,0,0};
         traj2.points[0].accelerations.resize(JOINTS2);
@@ -197,8 +196,8 @@ int main(int argc, char** argv)
         Hand.publish(traj2);
         ros::spinOnce();
 
-        //loop_rate.sleep();
+        loop_rate.sleep();
     }
-
+    
     return 0;
 }
